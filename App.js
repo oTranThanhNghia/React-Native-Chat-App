@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar'
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { AppLoading } from 'expo'
+import * as Font from 'expo-font'
+import { Ionicons } from '@expo/vector-icons'
 
-export default function App() {
+import Roboto from 'native-base/Fonts/Roboto.ttf'
+import RobotoMedium from 'native-base/Fonts/Roboto_medium.ttf'
+
+import { store, persistor } from './src/redux/store'
+import Screens from './src/screens'
+
+const App = () => {
+  const [isReady, setIsReady] = useState(false)
+
+  useEffect(async () => {
+    await Font.loadAsync({
+      Roboto,
+      Roboto_medium: RobotoMedium,
+      ...Ionicons.font,
+    })
+
+    setIsReady(true)
+  }, [])
+
+  if (!isReady) {
+    return <AppLoading />
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider>
+          <Screens />
+        </SafeAreaProvider>
+      </PersistGate>
+    </Provider>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+export default App

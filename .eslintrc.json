@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es2020": true
@@ -9,7 +10,8 @@
     "plugin:react/recommended",
     "plugin:react-native/all",
     "plugin:prettier/recommended",
-    "prettier/react"
+    "prettier/react",
+    "plugin:flowtype/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -18,6 +20,10 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "react-native"],
-  "rules": { "prettier/prettier": "error", "react/jsx-filename-extension": "off" }
+  "plugins": ["react", "prettier", "react-native", "flowtype"],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/jsx-filename-extension": "off",
+    "import/prefer-default-export": "off"
+  }
 }
