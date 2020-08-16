@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import { persistReducer } from 'redux-persist'
 import { combineReducers } from 'redux'
-
-import auth from '../domain/auth'
+import actions from './root.actions'
+import auth from '../global/auth'
 
 const storage = AsyncStorage
 
@@ -22,6 +22,12 @@ const appReducer = combineReducers({
 
 export function rootReducer(state, action) {
   switch (action.type) {
+    case actions.types.RESET_STATE:
+      Object.values(persistKeys).forEach((persistKey) => {
+        storage.removeItem(`persist:${persistKey}`).catch(() => {})
+      })
+      return appReducer(undefined, action)
+
     default: {
       return appReducer(state, action)
     }
