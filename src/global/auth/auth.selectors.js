@@ -9,9 +9,13 @@ import type { State } from './auth.reducer'
 const authSelector = (state: any): State => state.auth
 
 const isAuthenticated = createSelector(authSelector, (state: State) => state.isAuthenticated)
-const user = createSelector(authSelector, (state: State) => state.user)
+const currentUser = createSelector(authSelector, (state: State) => state.user)
+const authHeader = createSelector(authSelector, (state: State): string =>
+  [state.tokenType, state.authToken].filter(Boolean).join(' ')
+)
 
 export default {
   isAuthenticated,
-  user,
+  currentUser,
+  authHeader,
 }

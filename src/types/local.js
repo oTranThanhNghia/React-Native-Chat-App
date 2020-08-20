@@ -7,6 +7,12 @@ export type Response<Data, Metadata = {}> = {
   metadata: Metadata,
 }
 
+export type AuthInfo = {
+  isAuthenticated: boolean,
+  authToken: string,
+  tokenType: string,
+}
+
 export type User = {
   id: string,
   name: string,
