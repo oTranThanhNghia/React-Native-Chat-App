@@ -6,15 +6,21 @@ import React, { useState } from 'react'
 import { TextInput, View } from 'react-native'
 import { Text, Button } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
-import * as Device from 'expo-device'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppLoading } from 'expo'
 import styles from './styles'
 
-import auth from '../../global/auth'
+import actions from './login.actions'
+import selectors from './login.selectors'
+import { useErrorHandler } from '../../components/error'
 
-const Login = () => {
+const LoginScreen = () => {
   const dispatch = useDispatch()
   const [name, setName] = useState(null)
+
+  const isLoading = useSelector(selectors.isLoading)
+
+  useErrorHandler(selectors.error)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,12 +30,7 @@ const Login = () => {
         <Button
           onPress={() => {
             if (name) {
-              dispatch(
-                auth.actions.setUser({
-                  id: `${name}_${Device.modelName}_${Device.osName}_${Device.osVersion}`,
-                  name,
-                })
-              )
+              dispatch(actions.login(name))
             }
           }}
           full
@@ -41,4 +42,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginScreen

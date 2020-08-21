@@ -14,16 +14,18 @@ import Screens from './src/screens'
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
-
-  useEffect(async () => {
+  const loadFont = async () => {
     await Font.loadAsync({
       Roboto,
       Roboto_medium: RobotoMedium,
       ...Ionicons.font,
     })
+  }
 
+  useEffect(() => {
+    loadFont()
     setIsReady(true)
-  }, [])
+  })
 
   if (!isReady) {
     return <AppLoading />

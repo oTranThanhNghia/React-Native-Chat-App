@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist'
 import { combineReducers } from 'redux'
 import actions from './root.actions'
 import auth from '../global/auth'
+import loginReducer from '../screens/Login/login.reducer'
 
 const storage = AsyncStorage
 
@@ -18,6 +19,7 @@ const authPersistConfig = {
 
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth.reducer),
+  login: loginReducer,
 })
 
 export function rootReducer(state, action) {

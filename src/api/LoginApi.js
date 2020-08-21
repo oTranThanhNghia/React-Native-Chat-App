@@ -18,11 +18,14 @@ const parseAuth = (data: UserApi) => ({
 })
 
 const login = async (userName: string): Promise<Response<any>> => {
-  const response = await client.request({
-    method: 'post',
-    url: '/users/sign_in',
-    data: { username: userName },
-  })
+  const response = await client.request(
+    {
+      method: 'post',
+      url: '/users/sign_in',
+      data: { username: userName },
+    },
+    false
+  )
   return {
     data: parseAuth(response.data),
     metadata: {

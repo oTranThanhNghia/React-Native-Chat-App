@@ -6,8 +6,10 @@ import React from 'react'
 import { Text, Button } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import type { StackNavigationProp } from '@react-navigation/stack'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { screenNames } from '../../config'
+
+import rootActions from '../../redux/root.actions'
 import auth from '../../global/auth'
 
 type Props = {
@@ -15,7 +17,8 @@ type Props = {
 }
 
 const Home = ({ navigation }: Props) => {
-  const user = useSelector(auth.selectors.user)
+  const dispatch = useDispatch()
+  const user = useSelector(auth.selectors.currentUser)
   return (
     <SafeAreaView>
       <Text>{user.name}</Text>
@@ -25,6 +28,13 @@ const Home = ({ navigation }: Props) => {
         }}
       >
         <Text>Click</Text>
+      </Button>
+      <Button
+        onPress={() => {
+          dispatch(rootActions.resetState())
+        }}
+      >
+        <Text>Reset</Text>
       </Button>
     </SafeAreaView>
   )

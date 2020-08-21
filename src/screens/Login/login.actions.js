@@ -19,9 +19,14 @@ const login = (userName: string) => async (dispatch: any, getState: any) => {
   try {
     const { data, metadata } = await LoginApi.login(userName)
     dispatch({ type: types.LOGIN.SUCCESS })
-    dispatch(authActions.setAuthInfo({ ...data, isAuthenticated: true }))
     dispatch(authActions.setUser(metadata.user))
+    dispatch(authActions.setAuthInfo({ ...data, isAuthenticated: true }))
   } catch (error) {
     dispatch({ type: types.LOGIN.FAILED, payload: error })
   }
+}
+
+export default {
+  types,
+  login,
 }

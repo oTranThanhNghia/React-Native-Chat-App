@@ -18,7 +18,7 @@ export const initialState: State = {
   isAuthenticated: false,
   authToken: '',
   tokenType: '',
-  user: undefined,
+  user: {},
 }
 
 const authReducer = produce<any, any>((state: State = initialState, action: any) => {
@@ -29,7 +29,7 @@ const authReducer = produce<any, any>((state: State = initialState, action: any)
       state.tokenType = action.payload.tokenType
       break
     case actions.types.SET_USER:
-      state.user = action.payload.user
+      state.user = action.payload
     // no default
   }
 }, initialState)

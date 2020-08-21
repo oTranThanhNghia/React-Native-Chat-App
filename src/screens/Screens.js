@@ -13,7 +13,7 @@ const Stack = createStackNavigator()
 
 const Screens = () => {
   const isAuthenticated = useSelector(auth.selectors.isAuthenticated)
-  const user = useSelector(auth.selectors.user)
+  const user = useSelector(auth.selectors.currentUser)
 
   return (
     <NavigationContainer>

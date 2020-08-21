@@ -25,19 +25,19 @@ export class Client {
     if (config.headers) {
       return {
         ...config.headers,
-        Authorization: this.authHeader,
+        Authorization: `Bearer ${this.authHeader}`,
       }
     }
 
     return {
-      Authorization: this.authHeader,
+      Authorization: `Bearer ${this.authHeader}`,
     }
   }
 }
 
 const httpClient = axios.create({
   baseURL: env.API_BASE_URL,
-  timeout: 10000,
+  timeout: 15000,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

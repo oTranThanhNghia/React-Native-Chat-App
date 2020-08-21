@@ -1,6 +1,7 @@
 import { createStore, compose, applyMiddleware } from 'redux'
 import { persistStore } from 'redux-persist'
 import logger from 'redux-logger'
+import thunk from 'redux-thunk'
 
 import reducers from './root.reducer'
 
@@ -9,7 +10,7 @@ const reduxDevtoolsCompose = typeof window !== 'undefined' && window.__REDUX_DEV
 
 const composeEnhancer = reduxDevtoolsCompose || compose
 
-const middlewares = [logger]
+const middlewares = [thunk, logger]
 
 const store = createStore(reducers, composeEnhancer(applyMiddleware(...middlewares)))
 const persistor = persistStore(store)
