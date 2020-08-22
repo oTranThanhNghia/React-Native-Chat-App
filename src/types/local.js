@@ -7,6 +7,8 @@ export type Response<Data, Metadata = {}> = {
   metadata: Metadata,
 }
 
+export type Style = $FlowFixMe
+
 export type AuthInfo = {
   isAuthenticated: boolean,
   authToken: string,
@@ -15,7 +17,7 @@ export type AuthInfo = {
 
 export type User = {
   id: string,
-  name: string,
+  name?: string,
 }
 
 export type Message = {

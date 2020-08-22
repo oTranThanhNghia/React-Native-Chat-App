@@ -66,8 +66,24 @@ const fetchConversation = async (id: string): Promise<Response<Conversation>> =>
   }
 }
 
+const createMessgae = async (conversationId: string, message: string): Promise<Response<any>> => {
+  const response = await client.request({
+    method: 'post',
+    url: `/conversations/${conversationId}/messages`,
+    data: {
+      content: message,
+    },
+  })
+
+  return {
+    data: response.data,
+    metadata: {},
+  }
+}
+
 export default {
   fetchConversation,
   fetchConversations,
   createConversation,
+  createMessgae,
 }

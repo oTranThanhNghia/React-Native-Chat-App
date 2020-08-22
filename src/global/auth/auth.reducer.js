@@ -21,7 +21,7 @@ export const initialState: State = {
   user: {},
 }
 
-const authReducer = produce<any, any>((state: State = initialState, action: any) => {
+const authReducer = produce<any, any>((state: State, action: any) => {
   switch (action.type) {
     case actions.types.SET_AUTH_INFO:
       state.isAuthenticated = action.payload.isAuthenticated

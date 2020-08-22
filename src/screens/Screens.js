@@ -33,7 +33,7 @@ const Screens = () => {
               options={{
                 title: `Your name: ${user.name}`,
                 // eslint-disable-next-line react/display-name
-                headerLeft: () => <Button title="Logout" onPress={logout} />,
+                headerRight: () => <Button title="Logout" onPress={logout} />,
               }}
             />
             <Stack.Screen name={screenNames.detail} component={Detail} />

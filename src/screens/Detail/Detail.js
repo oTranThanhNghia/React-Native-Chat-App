@@ -2,41 +2,52 @@
  * @flow
  */
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { View } from 'react-native'
-import { GiftedChat } from 'react-native-gifted-chat'
-import type { IMessage } from 'react-native-gifted-chat/lib/Models'
+import type { NavigationProp, RouteProp } from '@react-navigation/native'
+import { useSelector, useDispatch } from 'react-redux'
+import type { Conversation, Message } from '../../types/local'
 import styles from './styles'
+import actions from './detail.actions'
+import selectors from './detail.selectors'
+
 import auth from '../../global/auth'
-import { useSelector } from 'react-redux'
+import chattingModel from '../../global/chatting/chatting.model'
 
-const Detail = () => {
-  const [messages, setMessages] = useState<Array<IMessage>>([])
-  const user = useSelector(auth.selectors.user)
-  console.log(`Detail messages=`)
-  console.log(messages)
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: 1,
-  //       text: 'Hello developer',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //   ])
-  // }, [])
+import Chat from './Chat'
+import { useErrorHandler } from '../../components/error'
 
-  const onSend = useCallback((mes = []) => {
-    setMessages((previousMessages) => GiftedChat.append(previousMessages, mes))
-  }, [])
+const Detail = ({ navigation, route }: { navigation: NavigationProp<any, any>, route: RouteProp<any, any> }) => {
+  const { conversation }: { conversation: Conversation } = route.params
+  const currentUser = useSelector(auth.selectors.currentUser)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(actions.fetchConversation(conversation.id))
+    return () => {
+      dispatch(actions.resetState())
+    }
+  }, [conversation])
+
+  useErrorHandler(selectors.fetchingError)
+
+  useEffect(() => {
+    if (conversation) {
+      navigation.setOptions({ title: chattingModel.getName(conversation, { currentUser }) })
+    }
+  }, [conversation, currentUser])
+
+  const onSend = useCallback(
+    (message: Message) => {
+      dispatch(actions.sendMessage(conversation.id, message.content))
+    },
+    [dispatch, conversation]
+  )
+  useErrorHandler(selectors.sendingError)
 
   return (
     <View style={styles.container}>
-      <GiftedChat messages={messages} onSend={onSend} user={{ _id: user.id }} />
+      <Chat onSend={onSend} currentUser={currentUser} conversation={conversation} />
     </View>
   )
 }

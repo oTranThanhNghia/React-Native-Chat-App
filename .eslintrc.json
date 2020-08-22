@@ -25,6 +25,8 @@
     "prettier/prettier": "error",
     "react/jsx-filename-extension": "off",
     "import/prefer-default-export": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "react-native/no-color-literals": "off",
+    "react-native/sort-styles": "off"
   }
 }

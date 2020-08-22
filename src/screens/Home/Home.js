@@ -2,15 +2,18 @@
  * @flow
  */
 
-import React from 'react'
-import { Text, Button } from 'native-base'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React, { useEffect, useCallback } from 'react'
+import { View, FlatList, Alert } from 'react-native'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector, useDispatch } from 'react-redux'
+import ActionButton from 'react-native-action-button'
 import { screenNames } from '../../config'
+import styles from './styles'
 
-import rootActions from '../../redux/root.actions'
-import auth from '../../global/auth'
+import actions from './home.actions'
+import selectors from './home.selectors'
+import { colors } from '../../styles'
+import ListItem from './ListItem'
 
 type Props = {
   navigation: StackNavigationProp<any, any>,
@@ -18,25 +21,41 @@ type Props = {
 
 const Home = ({ navigation }: Props) => {
   const dispatch = useDispatch()
-  const user = useSelector(auth.selectors.currentUser)
+  const listConversation = useSelector(selectors.listConversation)
+
+  useEffect(() => {
+    dispatch(actions.fetchConversations())
+  }, [])
+
+  const onInvitationPress = useCallback(() => {
+    Alert.prompt(
+      'New conversation',
+      'Enter a username: ',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: (username?: string) => {
+            dispatch(actions.createConversation(username || ''))
+          },
+        },
+      ],
+      'plain-text'
+    )
+  }, [])
+
   return (
-    <SafeAreaView>
-      <Text>{user.name}</Text>
-      <Button
-        onPress={() => {
-          navigation.navigate(screenNames.detail)
-        }}
-      >
-        <Text>Click</Text>
-      </Button>
-      <Button
-        onPress={() => {
-          dispatch(rootActions.resetState())
-        }}
-      >
-        <Text>Reset</Text>
-      </Button>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <FlatList
+        data={listConversation}
+        renderItem={({ item }) => <ListItem conversation={item} />}
+        keyExtractor={(item, index) => `${item.id}_${index}`}
+      />
+      <ActionButton buttonColor={colors.floatingColor} onPress={onInvitationPress} />
+    </View>
   )
 }
 

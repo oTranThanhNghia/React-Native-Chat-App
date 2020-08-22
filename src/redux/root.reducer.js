@@ -4,6 +4,9 @@ import { combineReducers } from 'redux'
 import actions from './root.actions'
 import auth from '../global/auth'
 import loginReducer from '../screens/Login/login.reducer'
+import homeReducer from '../screens/Home/home.reducer'
+import detailReducer from '../screens/Detail/detail.reducer'
+import chatting from '../global/chatting'
 
 const storage = AsyncStorage
 
@@ -20,6 +23,9 @@ const authPersistConfig = {
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth.reducer),
   login: loginReducer,
+  home: homeReducer,
+  chatting: chatting.reducer,
+  detail: detailReducer,
 })
 
 export function rootReducer(state, action) {
