@@ -18,7 +18,7 @@ const initialState: State = {
 /* eslint-disable no-param-reassign */
 const loginReducer = produce<any, any>((state: State, action: any) => {
   switch (action.type) {
-    case actions.types.LOGIN.FETCH:
+    case actions.types.LOGIN.REQUEST:
       state.isLoading = true
       state.error = null
       break

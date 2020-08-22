@@ -25,12 +25,12 @@ export class Client {
     if (config.headers) {
       return {
         ...config.headers,
-        Authorization: `Bearer ${this.authHeader}`,
+        Authorization: this.authHeader,
       }
     }
 
     return {
-      Authorization: `Bearer ${this.authHeader}`,
+      Authorization: this.authHeader,
     }
   }
 }

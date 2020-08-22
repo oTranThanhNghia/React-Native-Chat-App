@@ -3,11 +3,10 @@
  */
 
 import React, { useState } from 'react'
-import { TextInput, View } from 'react-native'
+import { TextInput, View, ActivityIndicator } from 'react-native'
 import { Text, Button } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppLoading } from 'expo'
 import styles from './styles'
 
 import actions from './login.actions'
@@ -28,6 +27,7 @@ const LoginScreen = () => {
         <Text>Login</Text>
         <TextInput style={styles.input} value={name} onChangeText={(text) => setName(text)} placeholder="Your name" />
         <Button
+          disabled={isLoading}
           onPress={() => {
             if (name) {
               dispatch(actions.login(name))
@@ -37,6 +37,7 @@ const LoginScreen = () => {
         >
           <Text>Login</Text>
         </Button>
+        {isLoading && <ActivityIndicator />}
       </View>
     </SafeAreaView>
   )
